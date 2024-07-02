@@ -1,6 +1,11 @@
 <?php
 // Usamos la conexion que ya establecimos en conexion.php
-include 'conexion.php';
+include '../conexion.php';
+
+// CORS: permitir acceso a la api desde cualquier dominio:
+header("Access-Control-Allow-Origin: *"); // Permite acceso desde cualquier origen
+header("Content-Type: application/json; charset=UTF-8");
+
 
 // Ejemplo de consulta de películas
 $consulta = "SELECT * FROM pelicula";
@@ -22,10 +27,7 @@ if (mysqli_num_rows($resultado) > 0) {
     // Convertir el array de películas a formato JSON
     $json_peliculas = json_encode($peliculas);
 
-    // CORS: permitir acceso a la api desde cualquier dominio:
-    header("Access-Control-Allow-Origin: *"); // Permite acceso desde cualquier origen
-    header("Content-Type: application/json; charset=UTF-8");
-
+ 
 
     // Enviar la respuesta JSON al frontend
     header('Content-Type: application/json');
