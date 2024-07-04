@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
         }
 
 } else {
-    die(json_encode(['error' => "Solo se admiten solicitudes GET."]));
+    die(json_encode(['error' => "Solo se admiten solicitudes DELETE."]));
 }
 
 ?>
