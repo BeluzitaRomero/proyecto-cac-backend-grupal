@@ -1,6 +1,6 @@
 <?php
 include '../conexion.php';
-include './utils/subirImgbb.php';
+include '../utils/subirImgbb.php';
 
 // Permitir acceso desde cualquier origen
 header("Access-Control-Allow-Origin: *");

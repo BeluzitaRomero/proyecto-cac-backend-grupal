@@ -1,5 +1,6 @@
 <?php 
 include 'conexion.php';
+session_start(); // Iniciar la sesión
 
 // Permitir acceso desde cualquier origen
 header("Access-Control-Allow-Origin: *");
@@ -33,8 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar la contraseña
         if (password_verify($password, $row['password'])) {
             // Contraseña correcta
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['rol'] = $row['rol']; 
+            
             http_response_code(200);
-            echo json_encode(["mensaje" => "Inicio de sesión exitoso"]);
+            echo json_encode(["mensaje" => "Inicio de sesión exitoso",
+                "user_id" => $row['id'],
+                "username" => $row['username'],
+                "rol" => $row['rol']]);
+            
         } else {
             // Contraseña incorrecta
             http_response_code(401);
