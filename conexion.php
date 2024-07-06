@@ -22,13 +22,6 @@ function conectar() {
     return $conexion;
 }
 
-// Función para ejecutar consultas SELECT
-function consultar($consulta) {
-    $conexion = conectar();
-    $resultado = mysqli_query($conexion, $consulta);
-    mysqli_close($conexion); // Cerrar la conexión después de usarla
-    return $resultado;
-}
 
  // Crear usuario admin para el dump de la db con contraseña hasheada
 // function crearAdmin() {
