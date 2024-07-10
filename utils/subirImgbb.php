@@ -1,11 +1,17 @@
 <?php
 // Función para subir una imagen a ImgBB y devolver el URL de la imagen
-function subirImagenAImgBB($imagen_temporal) {
-    $api_key = '4e909fe2db5c16069eff2f72188a60a3'; // Reemplaza con tu clave de API de ImgBB
+function subirImagenAImgBB($imagen_temporal, $tipo = "noBase64") {
+    $api_key = '4e909fe2db5c16069eff2f72188a60a3'; // produccion
+
+    //$api_key = ''; // testing
 
     $endpoint = 'https://api.imgbb.com/1/upload';
 
-    $imagen_base64 = base64_encode(file_get_contents($imagen_temporal));
+    if ($tipo === "base64") {
+        $imagen_base64 = $imagen_temporal;
+    } else {
+        $imagen_base64 = base64_encode(file_get_contents($imagen_temporal));
+    }
 
     $datos = array(
         'key' => $api_key,
