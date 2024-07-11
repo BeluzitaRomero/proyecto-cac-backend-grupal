@@ -22,7 +22,8 @@ function modificarPeliculaPorId($id, $titulo, $sinopsis, $url_imagen, $estreno, 
 }
 
 // Verifico si la solicitud se realizó por PUT
-if ($_SERVER['REQUEST_METHOD'] === "PUT") {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+//  if ($_SERVER['REQUEST_METHOD'] === "PUT") { no lo soparta el hosting
     $data = json_decode(file_get_contents('php://input'), true);
     $idPelicula = $data['id'] ?? null;
     if ($idPelicula === null) {
@@ -65,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === "PUT") {
  
 } else {
     http_response_code(405);
-    echo json_encode(['error' => "Solo se admiten solicitudes PUT."]);
+    echo json_encode(['error' => "Solo se admiten solicitudes POST."]);
 }
 
 ?>
