@@ -19,13 +19,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    // Conectar a la base de datos
+    $conexion = conectar();
+
     // Verificar si el usuario ya existe
-    $consulta = "SELECT * FROM usuarios WHERE email = '$email'";
-    $resultado = consultar($consulta);
+    $consulta = "SELECT * FROM usuarios WHERE email = ?";
+    $stmt = mysqli_prepare($conexion, $consulta);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($resultado) > 0) {
         http_response_code(409);
         echo json_encode(["mensaje" => "El usuario ya existe"]);
+        mysqli_stmt_close($stmt);
+        mysqli_close($conexion);
         exit;
     }
 
@@ -33,7 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Insertar el nuevo usuario en la base de datos
-    $conexion = conectar();
     $query = "INSERT INTO usuarios (username, email, password, rol) VALUES (?, ?, ?, 'usuario')";
     $stmt = mysqli_prepare($conexion, $query);
     mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashed_password);

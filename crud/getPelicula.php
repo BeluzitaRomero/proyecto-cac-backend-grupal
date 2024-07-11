@@ -1,51 +1,4 @@
 <?php
-// Usamos la conexion que ya establecimos en conexion.php
-// include '../conexion.php';
-
-// // CORS: permitir acceso a la api desde cualquier dominio:
-// header("Access-Control-Allow-Origin: *"); // Permite acceso desde cualquier origen
-// header("Content-Type: application/json; charset=UTF-8");
-
-
-// function obtenerPeliculaPorId($id) {
-//     $conexion = conectar();
-//     $query = "SELECT * FROM pelicula WHERE id = ?";
-//     $stmt = mysqli_prepare($conexion, $query);
-//     mysqli_stmt_bind_param($stmt, "i", $id);
-//     mysqli_stmt_execute($stmt);
-//     $resultado = mysqli_stmt_get_result($stmt);
-//     $pelicula = mysqli_fetch_assoc($resultado);
-//     mysqli_stmt_close($stmt);
-//     mysqli_close($conexion);
-//     return $pelicula;
-// }
-
-// Verifico si la solicitud se realizó por GET
-// if ($_SERVER["REQUEST_METHOD"] === "GET") {
-
-//     $idPelicula = $_GET['id'] ?? null;
-//     if ($idPelicula === null) {
-//         die(json_encode(['error' => "No se recibió el ID."]));
-//     }
-
-// Obtengo la película por id
-//     $peliculaEncontrada = obtenerPeliculaPorId($idPelicula);
-
-//     if ($peliculaEncontrada) {
-//         header('Content-Type: application/json');
-//         echo json_encode($peliculaEncontrada);
-//     } else {
-//         echo json_encode(['error' => 'No se encontró ninguna película con el ID proporcionado.']);
-//     }
-// } else {
-//     die(json_encode(['error' => "Solo se admiten solicitudes GET."]));
-// }
-
-/* -------------------------------------------------------------------------- */
-/*    version para que me devuelva correctamente los datos freemysqlhosting   */
-/* -------------------------------------------------------------------------- */
-
-
 // Usamos la conexión que ya establecimos en conexion.php
 include '../conexion.php';
 
@@ -53,8 +6,13 @@ include '../conexion.php';
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+// Función para obtener una película por su ID
 function obtenerPeliculaPorId($id) {
     $conexion = conectar();
+
+    // Establecer el conjunto de caracteres a UTF-8 después de la conexión
+    mysqli_set_charset($conexion, "utf8");
+
     $query = "SELECT * FROM pelicula WHERE id = ?";
     $stmt = mysqli_prepare($conexion, $query);
     mysqli_stmt_bind_param($stmt, "i", $id);
@@ -72,7 +30,7 @@ function obtenerPeliculaPorId($id) {
     return $pelicula;
 }
 
-// Verifico si la solicitud se realizó por GET
+// Verificar si la solicitud se realizó por GET
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $idPelicula = $_GET['id'] ?? null;
     
@@ -82,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         exit;
     }
 
-    // Obtengo la película por id
+    // Obtener la película por su ID
     $peliculaEncontrada = obtenerPeliculaPorId($idPelicula);
 
     if ($peliculaEncontrada) {
@@ -95,6 +53,4 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     http_response_code(405);
     echo json_encode(['error' => "Solo se admiten solicitudes GET."]);
 }
-
-
 ?>
