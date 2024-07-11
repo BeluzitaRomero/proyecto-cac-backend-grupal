@@ -21,7 +21,7 @@ function eliminarPeliculaPorId($id) {
 
 // Verificar si la solicitud se realizó por DELETE
 if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
-    parse_str(file_get_contents("php://input"), $data);
+    $data = json_decode(file_get_contents('php://input'), true);
     $idPelicula = $data['id'] ?? null;
 
     if ($idPelicula === null) {
