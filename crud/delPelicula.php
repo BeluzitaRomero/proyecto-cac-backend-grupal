@@ -20,12 +20,14 @@ function eliminarPeliculaPorId($id) {
 }
 
 // Verificar si la solicitud se realizó por DELETE
-if ($_SERVER['REQUEST_METHOD'] === "POST") {   
-    //if ($_SERVER["REQUEST_METHOD"] === "DELETE") { no lo soparta el hosting   
+if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
+    
     $data = json_decode(file_get_contents('php://input'), true);
+    //parse_str(file_get_contents("php://input"), $data);
     $idPelicula = $data['id'] ?? null;
 
     if ($idPelicula === null) {
+        http_response_code(404);
         die(json_encode(['error' => "No se recibió el ID."]));
     }
 
@@ -33,13 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $filas = eliminarPeliculaPorId($idPelicula);
 
     if ($filas > 0) {
+            http_response_code(200);
             echo json_encode(['message' => "Se eliminó la película con el ID $idPelicula"]);
         } else {
+            http_response_code(404);
             echo json_encode(['error' => "No se encontró ninguna película con el ID proporcionado."]);
         }
 
 } else {
-    die(json_encode(['error' => "Solo se admiten solicitudes POST."]));
+    http_response_code(405);
+    die(json_encode(['error' => "Solo se admiten solicitudes DELETE."]));
 }
 
 ?>

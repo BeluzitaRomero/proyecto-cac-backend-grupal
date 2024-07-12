@@ -1,7 +1,7 @@
 <?php
 // Función para subir una imagen a ImgBB y devolver el URL de la imagen
 function subirImagenAImgBB($imagen_temporal, $tipo = "noBase64") {
-    $api_key = 'a99f3747828f933b390a7c2d78228eda'; // local
+    $api_key = '4e909fe2db5c16069eff2f72188a60a3'; // produccion
 
     //$api_key = ''; // testing
 

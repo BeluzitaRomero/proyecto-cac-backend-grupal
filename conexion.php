@@ -12,7 +12,7 @@
 */
 
 function conectar() {
-    $conexion = mysqli_connect("sql10.freemysqlhosting.net", "sql10718172", "bJHSq4Avh7", "sql10718172");
+    $conexion = mysqli_connect("localhost", "root", "", "peliculas_db");
 
     // Verificar la conexión
     if (mysqli_connect_errno()) {
@@ -22,37 +22,14 @@ function conectar() {
     return $conexion;
 }
 
+// Función para ejecutar consultas SELECT
+function consultar($consulta) {
+    $conexion = conectar();
+    $resultado = mysqli_query($conexion, $consulta);
+    mysqli_close($conexion); // Cerrar la conexión después de usarla
+    return $resultado;
+}
 
- // Crear usuario admin para el dump de la db con contraseña hasheada
-// function crearAdmin() {
-//     $conexion = conectar();
-
-// Hashear la contraseña
-//     $admin_password ="admin123"; // Cambia esto a la contraseña que desees
-//     $hashed_password = password_hash($admin_password, PASSWORD_BCRYPT);
-
-// Verificar si el usuario admin ya existe
-//     $checkAdminQuery = "SELECT * FROM usuarios WHERE username = 'admin'";
-//     $checkResult = mysqli_query($conexion, $checkAdminQuery);
-
-//     if (mysqli_num_rows($checkResult) == 0) {
-// Insertar el usuario admin
-//         $insertAdminQuery = "INSERT INTO usuarios (username, email, password, rol) VALUES ('admin', 'admin@example.com', '$hashed_password', 'admin')";
-
-//         if (mysqli_query($conexion, $insertAdminQuery)) {
-//             echo "Usuario admin creado exitosamente";
-//         } else {
-//             echo "Error: " . $insertAdminQuery . "<br>" . mysqli_error($conexion);
-//         }
-//     } else {
-//         echo "El usuario admin ya existe.";
-//     }
-
-//     mysqli_close($conexion);
-// }
-
-// Ejecutar la creación del admin
-// crearAdmin();
 
 
 ?>
